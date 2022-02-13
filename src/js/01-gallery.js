@@ -1,11 +1,9 @@
 import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 
-console.log(galleryItems);
-
 const galleryRef = document.querySelector(".gallery");
 
-(function renderGalery() {
+(function renderGallery() {
   galleryRef.insertAdjacentHTML(
     "afterbegin",
     galleryItems
@@ -25,3 +23,17 @@ const galleryRef = document.querySelector(".gallery");
       .join("")
   );
 })();
+
+galleryRef.addEventListener("click", imageClickHandler);
+
+function imageClickHandler(event) {
+  const element = event.target;
+  if (element.nodeName !== "IMG") return;
+
+  event.preventDefault();
+
+  const {
+    dataset: { source },
+    alt,
+  } = element;
+}
