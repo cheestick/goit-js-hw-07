@@ -27,19 +27,21 @@ const galleryRef = document.querySelector(".gallery");
 galleryRef.addEventListener("click", imageClickHandler);
 
 const modalImagePreview = basicLightbox.create(
-  `
-    <div class="modal">
-        <img src="" alt=""/>
-    </div>
-`,
-  { onShow: whenModalShown, onClose: whenModalClosed }
+  `<img class="js-modal-image" src="" alt=""/>`,
+  {
+    onShow: () => {
+      window.addEventListener("keydown", closeByEscHandler);
+    },
+    onClose: () => {
+      window.removeEventListener("keydown", closeByEscHandler);
+    },
+  }
 );
 
 function imageClickHandler(event) {
+  event.preventDefault();
   const element = event.target;
   if (element.nodeName !== "IMG") return;
-
-  event.preventDefault();
 
   showOriginalImageModal(element);
 }
@@ -55,24 +57,11 @@ function showOriginalImageModal(image) {
 }
 
 function changeModalImageAttributes(src, alt) {
-  const imageRef = modalImagePreview.element().querySelector("img");
+  const imageRef = modalImagePreview.element().querySelector(".js-modal-image");
   imageRef.src = src || "";
   imageRef.alt = alt || "";
 }
 
-function clearModalImageAttributes() {
-  changeModalImageAttributes("", "");
-}
-
 function closeByEscHandler(event) {
-  if (event.code !== "Escape") return;
-  modalImagePreview.close();
-}
-
-function whenModalShown() {
-  window.addEventListener("keydown", closeByEscHandler);
-}
-
-function whenModalClosed() {
-  window.removeEventListener("keydown", closeByEscHandler);
+  if (event.code === "Escape") modalImagePreview.close();
 }
