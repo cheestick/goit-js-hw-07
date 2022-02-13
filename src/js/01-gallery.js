@@ -24,31 +24,16 @@ const galleryRef = document.querySelector(".gallery");
   );
 })();
 
-const basicLightBoxScriptMarkup = `<script 
-src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js" 
-  integrity="sha256-nMn34BfOxpKD0GwV5nZMwdS4e8SI8Ekz+G7dLeGE4XY="
-  crossorigin="anonymous"
-></script>`;
-
-const basicLightBoxCSSMarkup = `<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css"
-  integrity="sha256-r7Neol40GubQBzMKAJovEaXbl9FClnADCrIMPljlx3E="
-  crossorigin="anonymous"
-></link>`;
-
-(function addBasicLightBoxLib() {
-  document
-    .querySelector("script")
-    .insertAdjacentHTML("beforebegin", basicLightBoxScriptMarkup);
-
-  document.head.lastElementChild.insertAdjacentHTML(
-    "afterend",
-    basicLightBoxCSSMarkup
-  );
-})();
-
 galleryRef.addEventListener("click", imageClickHandler);
+
+const modalImagePreview = basicLightbox.create(
+  `
+    <div class="modal">
+        <img src="" alt=""/>
+    </div>
+`,
+  { onShow: whenModalShown, onClose: whenModalClosed }
+);
 
 function imageClickHandler(event) {
   const element = event.target;
@@ -56,8 +41,38 @@ function imageClickHandler(event) {
 
   event.preventDefault();
 
+  showOriginalImageModal(element);
+}
+
+function showOriginalImageModal(image) {
   const {
     dataset: { source },
     alt,
-  } = element;
+  } = image;
+
+  changeModalImageAttributes(source, alt);
+  modalImagePreview.show();
+}
+
+function changeModalImageAttributes(src, alt) {
+  const imageRef = modalImagePreview.element().querySelector("img");
+  imageRef.src = src;
+  imageRef.alt = alt;
+}
+
+function clearModalImageAttributes(arams) {
+  changeModalImageAttributes("", "");
+}
+
+function closeByEscHandler(event) {
+  if (event.code !== "Escape") return;
+  modalImagePreview.close();
+}
+
+function whenModalShown() {
+  window.addEventListener("keydown", closeByEscHandler);
+}
+
+function whenModalClosed() {
+  window.removeEventListener("keydown", closeByEscHandler);
 }
