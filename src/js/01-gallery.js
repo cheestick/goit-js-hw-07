@@ -24,6 +24,30 @@ const galleryRef = document.querySelector(".gallery");
   );
 })();
 
+const basicLightBoxScriptMarkup = `<script 
+src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js" 
+  integrity="sha256-nMn34BfOxpKD0GwV5nZMwdS4e8SI8Ekz+G7dLeGE4XY="
+  crossorigin="anonymous"
+></script>`;
+
+const basicLightBoxCSSMarkup = `<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css"
+  integrity="sha256-r7Neol40GubQBzMKAJovEaXbl9FClnADCrIMPljlx3E="
+  crossorigin="anonymous"
+></link>`;
+
+(function addBasicLightBoxLib() {
+  document
+    .querySelector("script")
+    .insertAdjacentHTML("beforebegin", basicLightBoxScriptMarkup);
+
+  document.head.lastElementChild.insertAdjacentHTML(
+    "afterend",
+    basicLightBoxCSSMarkup
+  );
+})();
+
 galleryRef.addEventListener("click", imageClickHandler);
 
 function imageClickHandler(event) {
