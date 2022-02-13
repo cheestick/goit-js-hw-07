@@ -30,5 +30,5 @@ function imageClickHandler(event) {
   if (element.nodeName !== "IMG") return;
 
   event.preventDefault();
-  gallery.open();
+  gallery.open(element);
 }
