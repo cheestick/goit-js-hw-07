@@ -56,11 +56,11 @@ function showOriginalImageModal(image) {
 
 function changeModalImageAttributes(src, alt) {
   const imageRef = modalImagePreview.element().querySelector("img");
-  imageRef.src = src;
-  imageRef.alt = alt;
+  imageRef.src = src || "";
+  imageRef.alt = alt || "";
 }
 
-function clearModalImageAttributes(arams) {
+function clearModalImageAttributes() {
   changeModalImageAttributes("", "");
 }
 
