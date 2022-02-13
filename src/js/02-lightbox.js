@@ -1,10 +1,8 @@
 import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 
-const galleryRef = document.querySelector(".gallery");
-galleryRef.addEventListener("click", imageClickHandler);
-
 (function renderGallery() {
+  const galleryRef = document.querySelector(".gallery");
   galleryRef.insertAdjacentHTML(
     "afterbegin",
     galleryItems
@@ -24,11 +22,3 @@ const options = {
 };
 
 const gallery = new SimpleLightbox(".gallery a", options);
-
-function imageClickHandler(event) {
-  const element = event.target;
-  if (element.nodeName !== "IMG") return;
-
-  event.preventDefault();
-  gallery.open(element);
-}
